@@ -3,9 +3,7 @@ package com.nals_test.todo.model.dto;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 
 public class TodoDTO implements Validator {
@@ -23,6 +21,10 @@ public class TodoDTO implements Validator {
     @Size(message = "Invalid field length.", min = 10, max = 22)
     @Pattern(regexp = "^\\d{4}\\-(0[1-9]|1[012])\\-(0[1-9]|[12][0-9]|3[01])$")
     private String endingDate;
+
+    @Max(2)
+    @Min(0)
+    private Integer status;
 
     public TodoDTO() {
     }
@@ -66,6 +68,14 @@ public class TodoDTO implements Validator {
         this.endingDate = endingDate;
     }
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     @Override
     public void validate(Object target, Errors errors) {
         TodoDTO todoDTO = (TodoDTO) target;
@@ -73,6 +83,8 @@ public class TodoDTO implements Validator {
         String endDate = todoDTO.endingDate;
         if (!ValidateStartAndEndDate.checkDate(startDate, endDate)) {
             errors.rejectValue("endingDate", "endingDate.invalid");
+        } else if(!ValidateStartAndEndDate.checkDateCompareNow(startDate)){
+            errors.rejectValue("startingDate", "startingDate.invalid");
         }
     }
 
