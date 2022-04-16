@@ -32,7 +32,7 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public void delete(Integer id) {
-
+        this.todoRepository.deleteTodo(id);
     }
 
     @Override
