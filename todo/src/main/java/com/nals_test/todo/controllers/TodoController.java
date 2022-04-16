@@ -50,4 +50,28 @@ public class TodoController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
+
+    /**
+     * @param id
+     * @param todoDTO
+     * @param bindingResult
+     * @return trạng thái thêm mới thành công hay không
+     * @description chỉnh sửa thông tin của todo theo id
+     * @since 16/04/2022 19:03
+     */
+    @PatchMapping(value = "/{id}/edit")
+    public ResponseEntity<Todo> createTodo(@PathVariable(value = "id") Integer id, @Valid @RequestBody TodoDTO todoDTO, BindingResult bindingResult) {
+        new TodoDTO().validate(todoDTO, bindingResult);
+        Todo todo = null;
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else if ((todo = this.todoService.findById(id)) != null) {
+            BeanUtils.copyProperties(todoDTO, todo);
+            todo.setId(id);
+            this.todoService.add(todo);
+            return new ResponseEntity<>(todo, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }
