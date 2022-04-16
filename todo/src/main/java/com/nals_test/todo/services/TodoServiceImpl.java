@@ -16,13 +16,13 @@ public class TodoServiceImpl implements TodoService {
     @Override
     public void add(Todo todo) {
         if (todo != null) {
-            todoRepository.save(todo);
+            this.todoRepository.save(todo);
         }
     }
 
     @Override
     public void edit(Todo todo) {
-
+        this.todoRepository.save(todo);
     }
 
     @Override

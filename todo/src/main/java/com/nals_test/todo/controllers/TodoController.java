@@ -34,4 +34,18 @@ public class TodoController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @PatchMapping(value = "/{id}/edit")
+    public ResponseEntity<Todo> createTodo(@PathVariable(value = "id")Integer id, @Valid @RequestBody TodoDTO todoDTO, BindingResult bindingResult) {
+        new TodoDTO().validate(todoDTO, bindingResult);
+        Todo todo = new Todo();
+        if (!bindingResult.hasErrors()) {
+            BeanUtils.copyProperties(todoDTO, todo);
+            todo.setId(id);
+            this.todoService.add(todo);
+            return new ResponseEntity<>(todo, HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }
