@@ -74,4 +74,21 @@ public class TodoController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    /**
+     * @param id
+     * @return trạng thái xoá thành công hay không
+     * @description xoá todo theo id, bằng cách tạo trường boolean khi chuyển về true có nghĩa là xoá
+     * @since 17/04/2022 03:45
+     */
+    @PatchMapping(value = "/{id}/delete")
+    public ResponseEntity<Todo> deleteTodo(@PathVariable("id") Integer id) {
+        Todo todo = null;
+        if ((todo = this.todoService.findById(id)) != null) {
+            this.todoService.delete(id);
+            return new ResponseEntity<>(todo, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }
