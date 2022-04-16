@@ -60,7 +60,7 @@ public class TodoController {
      * @since 16/04/2022 19:03
      */
     @PatchMapping(value = "/{id}/edit")
-    public ResponseEntity<Todo> createTodo(@PathVariable(value = "id") Integer id, @Valid @RequestBody TodoDTO todoDTO, BindingResult bindingResult) {
+    public ResponseEntity<Todo> editTodo(@PathVariable(value = "id") Integer id, @Valid @RequestBody TodoDTO todoDTO, BindingResult bindingResult) {
         new TodoDTO().validate(todoDTO, bindingResult);
         Todo todo = null;
         if (bindingResult.hasErrors()) {
