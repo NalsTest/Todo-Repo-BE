@@ -18,15 +18,17 @@ public class Todo implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(name = "work_name", columnDefinition = "VARCHAR(255) CHARACTER SET utf8mb4")
     private String workName;
 
+    @Column(name = "starting_date")
     private String startingDate;
-
+    @Column(name = "ending_date")
     private String endingDate;
 
-    @Column(columnDefinition = "integer default 0")
+    @Column(name = "status", columnDefinition = "integer default 0")
     private Integer status;
 
-    @Column(columnDefinition = "boolean default false")
+    @Column(name = "flag_delete", columnDefinition = "boolean default false")
     private boolean flagDelete;
 }
