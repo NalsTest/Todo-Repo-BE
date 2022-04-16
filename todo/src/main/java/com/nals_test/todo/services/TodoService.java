@@ -13,4 +13,6 @@ public interface TodoService {
     List<Todo> findAll();
 
     void delete(Integer id);
+
+    Todo findById(Integer id);
 }
