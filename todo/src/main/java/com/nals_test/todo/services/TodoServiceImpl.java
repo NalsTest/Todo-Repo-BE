@@ -34,4 +34,9 @@ public class TodoServiceImpl implements TodoService {
     public void delete(Integer id) {
 
     }
+
+    @Override
+    public Todo findById(Integer id) {
+        return this.todoRepository.findById(id).orElse(null);
+    }
 }

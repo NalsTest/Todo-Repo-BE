@@ -30,8 +30,24 @@ public class TodoController {
             todo.setFlagDelete(false);
             this.todoService.add(todo);
             return new ResponseEntity<>(todo, HttpStatus.CREATED);
-        }else {
+        } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    /**
+     * @return todo
+     * @author LinhDN
+     * @description phương thức lấy ra 1 đối tượng todo bằng id
+     * @since 16/04/2022 19:03
+     */
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Todo> getTodoById(@PathVariable(value = "id") Integer id) {
+        Todo todo = this.todoService.findById(id);
+        if (todo != null) {
+            return new ResponseEntity<>(todo, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
 }
