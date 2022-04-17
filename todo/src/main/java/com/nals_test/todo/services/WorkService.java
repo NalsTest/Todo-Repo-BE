@@ -19,7 +19,7 @@ public interface WorkService {
 
     Page<Work> searchWork(String workName, Integer status, String startingDate, String endingDate, Pageable pageable);
 
-    Page<Work> searchWorkByStartingDate(String startingDate, Pageable pageable);
+    Page<Work> searchWorkByStartingDate(String from, String to, Pageable pageable);
 
-    Page<Work> searchWorkByEndingDate(String endingDate, Pageable pageable);
+    Page<Work> searchWorkByEndingDate(String from, String to, Pageable pageable);
 }

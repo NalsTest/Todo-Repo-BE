@@ -22,7 +22,7 @@ public class WorkController_findWorkByStartingDate {
     public void findTodoByStartingDate_ending_date_not_found() {
 
         ResponseEntity<Page<Work>> responseEntity
-                = this.workController.findWorkByStartingDate("2021-03-18", PageRequest.of(0, 10));
+                = this.workController.findWorkByStartingDate("2021-03-18", "2021-03-30",PageRequest.of(0, 10));
 
         Assertions.assertEquals(200, responseEntity.getStatusCodeValue());
         Assertions.assertTrue(responseEntity.getBody().getContent().isEmpty());
@@ -35,14 +35,14 @@ public class WorkController_findWorkByStartingDate {
     public void findTodoByStartingDate_success() {
 
         ResponseEntity<Page<Work>> responseEntity
-                = this.workController.findWorkByStartingDate("2022-04-18", PageRequest.of(0, 10));
+                = this.workController.findWorkByStartingDate("2022-04-20", "2022-04-30",PageRequest.of(0, 10));
 
         Assertions.assertEquals(200, responseEntity.getStatusCodeValue());
-        Assertions.assertEquals(1, responseEntity.getBody().getTotalPages());
-        Assertions.assertEquals(2, responseEntity.getBody().getTotalElements());
-        Assertions.assertEquals("Nấu bữa tối",
+        Assertions.assertEquals(2, responseEntity.getBody().getTotalPages());
+        Assertions.assertEquals(12, responseEntity.getBody().getTotalElements());
+        Assertions.assertEquals("Hoàn thành đánh giá tuần",
                 responseEntity.getBody().getContent().get(0).getWorkName());
-        Assertions.assertEquals("2022-04-18",
+        Assertions.assertEquals("2022-04-26",
                 responseEntity.getBody().getContent().get(0).getEndingDate());
     }
 }

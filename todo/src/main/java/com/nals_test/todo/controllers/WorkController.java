@@ -97,7 +97,7 @@ public class WorkController {
      * @param pageable
      * @return page todo
      * @description Tìm kiếm work tổng hợp nhiều điều kiện:  gần đúng theo workname, status, starting date, ending date
-     *  @since 17/04/2022 14:45
+     * @since 17/04/2022 14:45
      */
     @GetMapping()
     public ResponseEntity<Page<Work>> findWork(@RequestParam(name = "workName", required = false) String workName,
@@ -106,31 +106,34 @@ public class WorkController {
                                                @RequestParam(name = "endingDate", required = false) String endingDate,
                                                Pageable pageable) {
         Page<Work> todos = this.workService.searchWork(workName, status, startingDate, endingDate, pageable);
-            return new ResponseEntity<>(todos, HttpStatus.OK);
-    }
-    /**
-     * @param pageable
-     * @return page todo
-     * @description Tìm kiếm work chính xác theo ngày bắt đầu
-     * @since 17/04/2022 15:45
-     */
-    @GetMapping("/startingDate")
-    public ResponseEntity<Page<Work>> findWorkByStartingDate(@RequestParam(name = "date", required = false) String startingDate,
-                                                             Pageable pageable) {
-        Page<Work> todos = this.workService.searchWorkByStartingDate(startingDate, pageable);
-            return new ResponseEntity<>(todos, HttpStatus.OK);
+        return new ResponseEntity<>(todos, HttpStatus.OK);
     }
 
     /**
      * @param pageable
      * @return page todo
-     * @description Tìm kiếm work chính xác theo ngày kết thúc
+     * @description Tìm kiếm work theo khoảng thời gian starting date
+     * @since 17/04/2022 15:45
+     */
+    @GetMapping("/startingDate")
+    public ResponseEntity<Page<Work>> findWorkByStartingDate(@RequestParam(name = "from", required = false) String from,
+                                                             @RequestParam(name = "to", required = false) String to,
+                                                             Pageable pageable) {
+        Page<Work> todos = this.workService.searchWorkByStartingDate(from, to, pageable);
+        return new ResponseEntity<>(todos, HttpStatus.OK);
+    }
+
+    /**
+     * @param pageable
+     * @return page todo
+     * @description Tìm kiếm work theo khoảng thời gian ending date
      * @since 17/04/2022 15:45
      */
     @GetMapping("/endingDate")
-    public ResponseEntity<Page<Work>> findWorkByEndingDate(@RequestParam(name = "date", required = false) String endingDate,
+    public ResponseEntity<Page<Work>> findWorkByEndingDate(@RequestParam(name = "from", required = false) String from,
+                                                           @RequestParam(name = "to", required = false) String to,
                                                            Pageable pageable) {
-        Page<Work> todos = this.workService.searchWorkByEndingDate(endingDate, pageable);
-            return new ResponseEntity<>(todos, HttpStatus.OK);
+        Page<Work> todos = this.workService.searchWorkByEndingDate(from, to, pageable);
+        return new ResponseEntity<>(todos, HttpStatus.OK);
     }
 }
