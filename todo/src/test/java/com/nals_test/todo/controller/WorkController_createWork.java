@@ -1,8 +1,7 @@
 package com.nals_test.todo.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nals_test.todo.model.dto.TodoDTO;
+import com.nals_test.todo.model.dto.WorkDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -16,7 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class TodoController_createTodo {
+public class WorkController_createWork {
     @Autowired
     private MockMvc mockMvc;
 
@@ -30,15 +29,15 @@ public class TodoController_createTodo {
      * @throws Exception
      */
     @Test
-    public void createTodo_all_item_valid() throws Exception {
-        TodoDTO todoDTO = new TodoDTO();
-        todoDTO.setWorkName("Học Java");
-        todoDTO.setEndingDate("2022-04-27");
-        todoDTO.setStartingDate("2022-04-27");
+    public void createWork_all_item_valid() throws Exception {
+        WorkDTO workDTO = new WorkDTO();
+        workDTO.setWorkName("Học Java");
+        workDTO.setEndingDate("2022-04-27");
+        workDTO.setStartingDate("2022-04-27");
         this.mockMvc
                 .perform(MockMvcRequestBuilders
                         .post("/api/todo")
-                        .content(this.objectMapper.writeValueAsString(todoDTO))
+                        .content(this.objectMapper.writeValueAsString(workDTO))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful());
@@ -50,15 +49,15 @@ public class TodoController_createTodo {
      * @throws Exception
      */
     @Test
-    public void createTodo_item_null() throws Exception {
-        TodoDTO todoDTO = new TodoDTO();
-        todoDTO.setWorkName(null);
-        todoDTO.setEndingDate("2022-04-27");
-        todoDTO.setStartingDate("2022-04-27");
+    public void createWork_item_null() throws Exception {
+        WorkDTO workDTO = new WorkDTO();
+        workDTO.setWorkName(null);
+        workDTO.setEndingDate("2022-04-27");
+        workDTO.setStartingDate("2022-04-27");
         this.mockMvc
                 .perform(MockMvcRequestBuilders
                         .post("/api/todo")
-                        .content(this.objectMapper.writeValueAsString(todoDTO))
+                        .content(this.objectMapper.writeValueAsString(workDTO))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
@@ -70,15 +69,15 @@ public class TodoController_createTodo {
      * @throws Exception
      */
     @Test
-    public void createTodo_min_length_work_name() throws Exception {
-        TodoDTO todoDTO = new TodoDTO();
-        todoDTO.setWorkName("h");
-        todoDTO.setEndingDate("2022-04-27");
-        todoDTO.setStartingDate("2022-04-27");
+    public void createWork_min_length_work_name() throws Exception {
+        WorkDTO workDTO = new WorkDTO();
+        workDTO.setWorkName("h");
+        workDTO.setEndingDate("2022-04-27");
+        workDTO.setStartingDate("2022-04-27");
         this.mockMvc
                 .perform(MockMvcRequestBuilders
                         .post("/api/todo")
-                        .content(this.objectMapper.writeValueAsString(todoDTO))
+                        .content(this.objectMapper.writeValueAsString(workDTO))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
@@ -90,15 +89,15 @@ public class TodoController_createTodo {
      * @throws Exception
      */
     @Test
-    public void createTodo_max_length_work_name() throws Exception {
-        TodoDTO todoDTO = new TodoDTO();
-        todoDTO.setWorkName("h");
-        todoDTO.setEndingDate("2022-04-27");
-        todoDTO.setStartingDate("2022-04-27");
+    public void createWork_max_length_work_name() throws Exception {
+        WorkDTO workDTO = new WorkDTO();
+        workDTO.setWorkName("h");
+        workDTO.setEndingDate("2022-04-27");
+        workDTO.setStartingDate("2022-04-27");
         this.mockMvc
                 .perform(MockMvcRequestBuilders
                         .post("/api/todo")
-                        .content(this.objectMapper.writeValueAsString(todoDTO))
+                        .content(this.objectMapper.writeValueAsString(workDTO))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
@@ -110,15 +109,15 @@ public class TodoController_createTodo {
      * @throws Exception
      */
     @Test
-    public void createTodo_empty_work_name() throws Exception {
-        TodoDTO todoDTO = new TodoDTO();
-        todoDTO.setWorkName("");
-        todoDTO.setEndingDate("2022-04-27");
-        todoDTO.setStartingDate("2022-04-27");
+    public void createWork_empty_work_name() throws Exception {
+        WorkDTO workDTO = new WorkDTO();
+        workDTO.setWorkName("");
+        workDTO.setEndingDate("2022-04-27");
+        workDTO.setStartingDate("2022-04-27");
         this.mockMvc
                 .perform(MockMvcRequestBuilders
                         .post("/api/todo")
-                        .content(this.objectMapper.writeValueAsString(todoDTO))
+                        .content(this.objectMapper.writeValueAsString(workDTO))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
@@ -130,15 +129,15 @@ public class TodoController_createTodo {
      * @throws Exception
      */
     @Test
-    public void createTodo_invalid_format_starting_date() throws Exception {
-        TodoDTO todoDTO = new TodoDTO();
-        todoDTO.setWorkName("Học C#");
-        todoDTO.setEndingDate("2022-04-27");
-        todoDTO.setStartingDate("2022-04");
+    public void createWork_invalid_format_starting_date() throws Exception {
+        WorkDTO workDTO = new WorkDTO();
+        workDTO.setWorkName("Học C#");
+        workDTO.setEndingDate("2022-04-27");
+        workDTO.setStartingDate("2022-04");
         this.mockMvc
                 .perform(MockMvcRequestBuilders
                         .post("/api/todo")
-                        .content(this.objectMapper.writeValueAsString(todoDTO))
+                        .content(this.objectMapper.writeValueAsString(workDTO))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
@@ -150,15 +149,15 @@ public class TodoController_createTodo {
      * @throws Exception
      */
     @Test
-    public void createTodo_invalid_before_now_starting_date() throws Exception {
-        TodoDTO todoDTO = new TodoDTO();
-        todoDTO.setWorkName("Học C#");
-        todoDTO.setEndingDate("2022-04-27");
-        todoDTO.setStartingDate("2021-04-14");
+    public void createWork_invalid_before_now_starting_date() throws Exception {
+        WorkDTO workDTO = new WorkDTO();
+        workDTO.setWorkName("Học C#");
+        workDTO.setEndingDate("2022-04-27");
+        workDTO.setStartingDate("2021-04-14");
         this.mockMvc
                 .perform(MockMvcRequestBuilders
                         .post("/api/todo")
-                        .content(this.objectMapper.writeValueAsString(todoDTO))
+                        .content(this.objectMapper.writeValueAsString(workDTO))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
@@ -170,15 +169,15 @@ public class TodoController_createTodo {
      * @throws Exception
      */
     @Test
-    public void createTodo_ending_date_before_starting_date() throws Exception {
-        TodoDTO todoDTO = new TodoDTO();
-        todoDTO.setWorkName("Học C#");
-        todoDTO.setEndingDate("2022-04-27");
-        todoDTO.setStartingDate("2021-04-30");
+    public void createWork_ending_date_before_starting_date() throws Exception {
+        WorkDTO workDTO = new WorkDTO();
+        workDTO.setWorkName("Học C#");
+        workDTO.setEndingDate("2022-04-27");
+        workDTO.setStartingDate("2021-04-30");
         this.mockMvc
                 .perform(MockMvcRequestBuilders
                         .post("/api/todo")
-                        .content(this.objectMapper.writeValueAsString(todoDTO))
+                        .content(this.objectMapper.writeValueAsString(workDTO))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());

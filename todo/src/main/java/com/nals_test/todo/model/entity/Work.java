@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Todo implements Serializable {
+public class Work implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,9 +27,11 @@ public class Todo implements Serializable {
     @Column(name = "ending_date", columnDefinition = "date")
     private String endingDate;
 
+    // Trường status sử dụng kiểu Integer có 3 giá trị 0,1,2 tương ứng với Planing, Doing, Complete
     @Column(name = "status", columnDefinition = "integer default 0")
     private Integer status;
 
+    // Không xoá trực tiếp dữ liệu trong DB mà sử dụng trường này để xoá, mặc định là false khi chuyển sang true là xoá
     @Column(name = "flag_delete", columnDefinition = "boolean default false")
     private boolean flagDelete;
 }

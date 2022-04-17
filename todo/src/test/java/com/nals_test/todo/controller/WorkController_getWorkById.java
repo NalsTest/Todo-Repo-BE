@@ -1,6 +1,5 @@
 package com.nals_test.todo.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -9,15 +8,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class TodoController_deleteTodo {
+public class WorkController_getWorkById {
     @Autowired
     private MockMvc mockMvc;
-
 
     /**
      * Test case id không tồn tại trong database
@@ -25,38 +22,24 @@ public class TodoController_deleteTodo {
      * @throws Exception
      */
     @Test
-    public void deleteTodo_id_not_found() throws Exception {
+    public void getWorkById_id_not_found() throws Exception {
         this.mockMvc
                 .perform(MockMvcRequestBuilders
-                        .patch("/api/todo/{id}/delete", "45"))
+                        .get("/api/todo/{id}", "45"))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
     }
 
     /**
-     * Test case id rỗng
+     * Test case lấy thành công todo
      *
      * @throws Exception
      */
     @Test
-    public void deleteTodo_id_empty() throws Exception {
+    public void getWorkById_id_valid() throws Exception {
         this.mockMvc
                 .perform(MockMvcRequestBuilders
-                        .patch("/api/todo/{id}/delete", ""))
-                .andDo(print())
-                .andExpect(status().is4xxClientError());
-    }
-
-    /**
-     * Test case id tồn tại xoá thành công
-     *
-     * @throws Exception
-     */
-    @Test
-    public void deleteTodo_id_valid() throws Exception {
-        this.mockMvc
-                .perform(MockMvcRequestBuilders
-                        .patch("/api/todo/{id}/delete", "1"))
+                        .get("/api/todo/{id}", "1"))
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful());
     }

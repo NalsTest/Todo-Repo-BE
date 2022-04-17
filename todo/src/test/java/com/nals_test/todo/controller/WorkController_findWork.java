@@ -1,7 +1,7 @@
 package com.nals_test.todo.controller;
 
-import com.nals_test.todo.controllers.TodoController;
-import com.nals_test.todo.model.entity.Todo;
+import com.nals_test.todo.controllers.WorkController;
+import com.nals_test.todo.model.entity.Work;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,19 +13,19 @@ import org.springframework.http.ResponseEntity;
 
 
 @SpringBootTest
-public class TodoController_findTodo {
+public class WorkController_findWork {
 
     @Autowired
-    private TodoController todoController;
+    private WorkController workController;
 
     /**
      * test case page không tồn tại, không có dữ liệu trả về
      */
     @Test
-    public void findTodo_page_not_found() {
+    public void findWork_page_not_found() {
 
-        ResponseEntity<Page<Todo>> responseEntity
-                = this.todoController.findTodo(null, null, null, null, PageRequest.of(99, 10));
+        ResponseEntity<Page<Work>> responseEntity
+                = this.workController.findWork(null, null, null, null, PageRequest.of(99, 10));
 
         Assertions.assertEquals(200, responseEntity.getStatusCodeValue());
         Assertions.assertTrue(responseEntity.getBody().getContent().isEmpty());
@@ -35,10 +35,10 @@ public class TodoController_findTodo {
      * test case lấy về danh sách todo thành công
      */
     @Test
-    public void findTodo_success() {
+    public void findWork_success() {
 
-        ResponseEntity<Page<Todo>> responseEntity
-                = this.todoController.findTodo(null, null, null, null, PageRequest.of(0, 10));
+        ResponseEntity<Page<Work>> responseEntity
+                = this.workController.findWork(null, null, null, null, PageRequest.of(0, 10));
 
         Assertions.assertEquals(200, responseEntity.getStatusCodeValue());
         Assertions.assertEquals(2, responseEntity.getBody().getTotalPages());
@@ -51,9 +51,9 @@ public class TodoController_findTodo {
      * test case sắp xếp tăng dần theo starting date
      */
     @Test
-    public void findTodo_success_sort() {
-        ResponseEntity<Page<Todo>> responseEntity
-                = this.todoController.findTodo(null, null, null, null, PageRequest.of(0, 10, Sort.by("starting_date").ascending()));
+    public void findWork_success_sort() {
+        ResponseEntity<Page<Work>> responseEntity
+                = this.workController.findWork(null, null, null, null, PageRequest.of(0, 10, Sort.by("starting_date").ascending()));
 
         Assertions.assertEquals(200, responseEntity.getStatusCodeValue());
         Assertions.assertEquals(2, responseEntity.getBody().getTotalPages());
@@ -66,10 +66,10 @@ public class TodoController_findTodo {
      * test case tìm kiếm thành công theo work name
      */
     @Test
-    public void findTodo_success_by_work_name() {
+    public void findWork_success_by_work_name() {
 
-        ResponseEntity<Page<Todo>> responseEntity
-                = this.todoController.findTodo("review", null, null, null, PageRequest.of(0, 10));
+        ResponseEntity<Page<Work>> responseEntity
+                = this.workController.findWork("review", null, null, null, PageRequest.of(0, 10));
 
         Assertions.assertEquals(200, responseEntity.getStatusCodeValue());
         Assertions.assertEquals(1, responseEntity.getBody().getTotalPages());
@@ -84,10 +84,10 @@ public class TodoController_findTodo {
      * test case tìm kiếm thành công theo status
      */
     @Test
-    public void findTodo_success_status() {
+    public void findWork_success_status() {
 
-        ResponseEntity<Page<Todo>> responseEntity
-                = this.todoController.findTodo(null, 1, null, null, PageRequest.of(0, 10));
+        ResponseEntity<Page<Work>> responseEntity
+                = this.workController.findWork(null, 1, null, null, PageRequest.of(0, 10));
 
         Assertions.assertEquals(200, responseEntity.getStatusCodeValue());
         Assertions.assertEquals(1, responseEntity.getBody().getTotalPages());
@@ -102,10 +102,10 @@ public class TodoController_findTodo {
      * test case tìm kiếm thành công theo khoảng thời gian starting date và ending date
      */
     @Test
-    public void findTodo_success_startingDate_endingDate() {
+    public void findWork_success_startingDate_endingDate() {
 
-        ResponseEntity<Page<Todo>> responseEntity
-                = this.todoController.findTodo(null, null, "2022-04-20", "2022-04-30", PageRequest.of(0, 10));
+        ResponseEntity<Page<Work>> responseEntity
+                = this.workController.findWork(null, null, "2022-04-20", "2022-04-30", PageRequest.of(0, 10));
 
         Assertions.assertEquals(200, responseEntity.getStatusCodeValue());
         Assertions.assertEquals(2, responseEntity.getBody().getTotalPages());
@@ -120,10 +120,10 @@ public class TodoController_findTodo {
      * test case tìm kiếm thành công theo khoảng thời gian starting date và ending date
      */
     @Test
-    public void findTodo_success_advanced() {
+    public void findWork_success_advanced() {
 
-        ResponseEntity<Page<Todo>> responseEntity
-                = this.todoController.findTodo("quiz", 0, "2022-04-20", "2022-04-25", PageRequest.of(0, 10));
+        ResponseEntity<Page<Work>> responseEntity
+                = this.workController.findWork("quiz", 0, "2022-04-20", "2022-04-25", PageRequest.of(0, 10));
 
         Assertions.assertEquals(200, responseEntity.getStatusCodeValue());
         Assertions.assertEquals(1, responseEntity.getBody().getTotalPages());
