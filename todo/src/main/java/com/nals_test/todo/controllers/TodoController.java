@@ -5,10 +5,11 @@ import com.nals_test.todo.model.entity.Todo;
 import com.nals_test.todo.services.TodoService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -47,7 +48,7 @@ public class TodoController {
         if (todo != null) {
             return new ResponseEntity<>(todo, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
@@ -60,7 +61,7 @@ public class TodoController {
      * @since 16/04/2022 19:03
      */
     @PatchMapping(value = "/{id}/edit")
-    public ResponseEntity<Todo> createTodo(@PathVariable(value = "id") Integer id, @Valid @RequestBody TodoDTO todoDTO, BindingResult bindingResult) {
+    public ResponseEntity<Todo> editTodo(@PathVariable(value = "id") Integer id, @Valid @RequestBody TodoDTO todoDTO, BindingResult bindingResult) {
         new TodoDTO().validate(todoDTO, bindingResult);
         Todo todo = null;
         if (bindingResult.hasErrors()) {
@@ -70,6 +71,76 @@ public class TodoController {
             todo.setId(id);
             this.todoService.add(todo);
             return new ResponseEntity<>(todo, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    /**
+     * @param id
+     * @return trạng thái xoá thành công hay không
+     * @description xoá todo theo id, bằng cách tạo trường boolean khi chuyển về true có nghĩa là xoá
+     * @since 17/04/2022 03:45
+     */
+    @PatchMapping(value = "/{id}/delete")
+    public ResponseEntity<Todo> deleteTodo(@PathVariable("id") Integer id) {
+        Todo todo = null;
+        if ((todo = this.todoService.findById(id)) != null) {
+            this.todoService.delete(id);
+            return new ResponseEntity<>(todo, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    /**
+     * @param pageable
+     * @return page todo
+     * @description Tìm kiếm todo tổng hợp nhiều điều kiện:  gần đúng theo workname, theo status, theo khoảng thời gian bắt đầu và kết thúc
+     *  @since 17/04/2022 14:45
+     */
+    @GetMapping()
+    public ResponseEntity<Page<Todo>> findTodo(@RequestParam(name = "workName", required = false) String workName,
+                                                  @RequestParam(name = "status", required = false) Integer status,
+                                                  @RequestParam(name = "startingDate", required = false) String startingDate,
+                                                  @RequestParam(name = "endingDate", required = false) String endingDate,
+                                                  Pageable pageable) {
+        Page<Todo> todos = this.todoService.searchTodo(workName, status, startingDate, endingDate, pageable);
+        if (!todos.isEmpty()) {
+            return new ResponseEntity<>(todos, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    /**
+     * @param pageable
+     * @return page todo
+     * @description Tìm kiếm todo chính xác theo ngày bắt đầu
+     * @since 17/04/2022 15:45
+     */
+    @GetMapping("/startingDate")
+    public ResponseEntity<Page<Todo>> findTodoByStartingDate(@RequestParam(name = "date", required = false) String startingDate,
+                                                  Pageable pageable) {
+        Page<Todo> todos = this.todoService.searchTodoByStartingDate(startingDate, pageable);
+        if (!todos.isEmpty()) {
+            return new ResponseEntity<>(todos, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    /**
+     * @param pageable
+     * @return page todo
+     * @description Tìm kiếm todo chính xác theo ngày kết thúc
+     * @since 17/04/2022 15:45
+     */
+    @GetMapping("/endingDate")
+    public ResponseEntity<Page<Todo>> findTodoByEndingDate(@RequestParam(name = "date", required = false) String endingDate,
+                                                             Pageable pageable) {
+        Page<Todo> todos = this.todoService.searchTodoByEndingDate(endingDate, pageable);
+        if (!todos.isEmpty()) {
+            return new ResponseEntity<>(todos, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
