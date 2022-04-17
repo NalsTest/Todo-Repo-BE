@@ -106,11 +106,7 @@ public class TodoController {
                                                   @RequestParam(name = "endingDate", required = false) String endingDate,
                                                   Pageable pageable) {
         Page<Todo> todos = this.todoService.searchTodo(workName, status, startingDate, endingDate, pageable);
-        if (!todos.isEmpty()) {
             return new ResponseEntity<>(todos, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
     }
     /**
      * @param pageable
@@ -122,11 +118,7 @@ public class TodoController {
     public ResponseEntity<Page<Todo>> findTodoByStartingDate(@RequestParam(name = "date", required = false) String startingDate,
                                                   Pageable pageable) {
         Page<Todo> todos = this.todoService.searchTodoByStartingDate(startingDate, pageable);
-        if (!todos.isEmpty()) {
             return new ResponseEntity<>(todos, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
     }
 
     /**
@@ -139,10 +131,6 @@ public class TodoController {
     public ResponseEntity<Page<Todo>> findTodoByEndingDate(@RequestParam(name = "date", required = false) String endingDate,
                                                              Pageable pageable) {
         Page<Todo> todos = this.todoService.searchTodoByEndingDate(endingDate, pageable);
-        if (!todos.isEmpty()) {
             return new ResponseEntity<>(todos, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
     }
 }
