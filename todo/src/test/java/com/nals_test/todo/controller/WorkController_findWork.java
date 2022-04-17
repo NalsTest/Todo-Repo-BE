@@ -99,38 +99,56 @@ public class WorkController_findWork {
     }
 
     /**
-     * test case tìm kiếm thành công theo khoảng thời gian starting date và ending date
+     * test case tìm kiếm thành công theo startingDate
      */
     @Test
-    public void findWork_success_startingDate_endingDate() {
+    public void findWork_success_startingDate() {
 
         ResponseEntity<Page<Work>> responseEntity
-                = this.workController.findWork(null, null, "2022-04-20", "2022-04-30", PageRequest.of(0, 10));
+                = this.workController.findWork(null, null, "2022-04-20", null, PageRequest.of(0, 10));
 
         Assertions.assertEquals(200, responseEntity.getStatusCodeValue());
-        Assertions.assertEquals(2, responseEntity.getBody().getTotalPages());
-        Assertions.assertEquals(12, responseEntity.getBody().getTotalElements());
-        Assertions.assertEquals("Ôn tập Java",
-                responseEntity.getBody().getContent().get(4).getWorkName());
-        Assertions.assertEquals("2022-04-27",
-                responseEntity.getBody().getContent().get(4).getEndingDate());
+        Assertions.assertEquals(1, responseEntity.getBody().getTotalPages());
+        Assertions.assertEquals(1, responseEntity.getBody().getTotalElements());
+        Assertions.assertEquals("Hoàn thành đánh giá tuần",
+                responseEntity.getBody().getContent().get(0).getWorkName());
+        Assertions.assertEquals("2022-04-26",
+                responseEntity.getBody().getContent().get(0).getEndingDate());
     }
 
     /**
-     * test case tìm kiếm thành công theo khoảng thời gian starting date và ending date
+     * test case tìm kiếm thành công tổng hợp các item
      */
     @Test
     public void findWork_success_advanced() {
 
         ResponseEntity<Page<Work>> responseEntity
-                = this.workController.findWork("quiz", 0, "2022-04-20", "2022-04-25", PageRequest.of(0, 10));
+                = this.workController.findWork("xem", 0, "2022-04-19", "2022-04-19", PageRequest.of(0, 10));
 
         Assertions.assertEquals(200, responseEntity.getStatusCodeValue());
         Assertions.assertEquals(1, responseEntity.getBody().getTotalPages());
         Assertions.assertEquals(1, responseEntity.getBody().getTotalElements());
-        Assertions.assertEquals("Quiz test angular",
+        Assertions.assertEquals("Xem 5 video tuts về aws",
                 responseEntity.getBody().getContent().get(0).getWorkName());
-        Assertions.assertEquals("2022-04-24",
+        Assertions.assertEquals("2022-04-19",
+                responseEntity.getBody().getContent().get(0).getEndingDate());
+    }
+
+    /**
+     * test case tìm kiếm thành công theo ending date
+     */
+    @Test
+    public void findWork_success_endingDate() {
+
+        ResponseEntity<Page<Work>> responseEntity
+                = this.workController.findWork(null, null, null, "2022-04-22", PageRequest.of(0, 10));
+
+        Assertions.assertEquals(200, responseEntity.getStatusCodeValue());
+        Assertions.assertEquals(1, responseEntity.getBody().getTotalPages());
+        Assertions.assertEquals(1, responseEntity.getBody().getTotalElements());
+        Assertions.assertEquals("Coding unit test",
+                responseEntity.getBody().getContent().get(0).getWorkName());
+        Assertions.assertEquals("2022-04-22",
                 responseEntity.getBody().getContent().get(0).getEndingDate());
     }
 }

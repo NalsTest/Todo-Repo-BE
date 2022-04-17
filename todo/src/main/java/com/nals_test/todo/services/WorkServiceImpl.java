@@ -47,12 +47,12 @@ public class WorkServiceImpl implements WorkService {
     }
 
     @Override
-    public Page<Work> searchWorkByStartingDate(String startingDate, Pageable pageable) {
-        return this.workRepository.searchTodoByStartingDate(startingDate, pageable);
+    public Page<Work> searchWorkByStartingDate(String from, String to, Pageable pageable) {
+        return this.workRepository.searchTodoByStartingDate(from, to, pageable);
     }
 
     @Override
-    public Page<Work> searchWorkByEndingDate(String endingDate, Pageable pageable) {
-        return this.workRepository.searchWorkByEndingDate(endingDate, pageable);
+    public Page<Work> searchWorkByEndingDate(String from, String to, Pageable pageable) {
+        return this.workRepository.searchWorkByEndingDate(from, to, pageable);
     }
 }

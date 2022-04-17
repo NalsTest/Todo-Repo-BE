@@ -22,7 +22,7 @@ public class WorkController_findWorkByEndingDate {
     public void findTodoByEndingDate_ending_date_not_found() {
 
         ResponseEntity<Page<Work>> responseEntity
-                = this.workController.findWorkByEndingDate("2021-03-18", PageRequest.of(0, 10));
+                = this.workController.findWorkByEndingDate("2021-03-18", "2021-05-30",PageRequest.of(0, 10));
 
         Assertions.assertEquals(200, responseEntity.getStatusCodeValue());
         Assertions.assertTrue(responseEntity.getBody().getContent().isEmpty());
@@ -35,7 +35,7 @@ public class WorkController_findWorkByEndingDate {
     public void findTodoByEndingDate_success() {
 
         ResponseEntity<Page<Work>> responseEntity
-                = this.workController.findWorkByEndingDate("2022-04-19", PageRequest.of(0, 10));
+                = this.workController.findWorkByEndingDate("2022-04-19", "2022-04-20",PageRequest.of(0, 10));
 
         Assertions.assertEquals(200, responseEntity.getStatusCodeValue());
         Assertions.assertEquals(1, responseEntity.getBody().getTotalPages());

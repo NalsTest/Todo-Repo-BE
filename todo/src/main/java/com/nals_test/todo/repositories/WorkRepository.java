@@ -37,34 +37,38 @@ public interface WorkRepository extends JpaRepository<Work, Integer> {
 
     @Query(value = "SELECT work.id, work.ending_date, work.starting_date, work.flag_delete, work.work_name, work.status\n" +
             "FROM work WHERE (:workName IS NULL OR work.work_name LIKE %:workName%)\n" +
-            "            AND (:status IS NULL    OR work.status = :status)\n" +
-            "            AND (:startingDate IS NULL  OR work.starting_date >= :startingDate )\n" +
-            "            AND ( :endingDate IS NULL  OR work.ending_date <= :endingDate ) " +
-            "            AND todo.flag_delete = 0 ",
+            "AND (:status IS NULL    OR work.status = :status)\n" +
+            "AND (:startingDate IS NULL  OR work.starting_date = :startingDate )\n" +
+            "AND ( :endingDate IS NULL  OR work.ending_date = :endingDate ) " +
+            "AND work .flag_delete = 0 ",
             countQuery = "SELECT count(work.id) " +
                     "FROM todo WHERE (:workName IS NULL OR work.work_name LIKE %:workName%)\n" +
-                    "            AND (:status IS NULL    OR work.status = :status)\n" +
-                    "            AND (:startingDate IS NULL  OR work.starting_date >= :startingDate )\n" +
-                    "            AND ( :endingDate IS NULL  OR work.ending_date <= :endingDate ) \n" +
-                    "            AND work.flag_delete = 0;",
+                    "AND (:status IS NULL    OR work.status = :status)\n" +
+                    "AND (:startingDate IS NULL  OR work.starting_date = :startingDate )\n" +
+                    "AND ( :endingDate IS NULL  OR work.ending_date = :endingDate ) \n" +
+                    "AND work.flag_delete = 0;",
             nativeQuery = true)
     Page<Work> searchWork(@Param("workName") String workName, @Param("status") Integer status, @Param("startingDate") String startingDate, @Param("endingDate") String endingDate, Pageable pageable);
 
     @Query(value = "SELECT work.id, work.ending_date, work.starting_date, work.flag_delete, work.work_name, work.status\n" +
-            "FROM work WHERE work.starting_date = :startingDate \n" +
-            "            AND work.flag_delete = 0 ",
+            "FROM work WHERE (:from IS NULL OR work.starting_date >= :from) \n" +
+            "AND (:to IS NULL OR work.starting_date <= :to) \n" +
+            "AND work.flag_delete = 0 ",
             countQuery = "SELECT count(work.id) " +
-                    "FROM todo WHERE work.starting_date = :startingDate \n" +
+                    "FROM work WHERE (:from IS NULL OR work.starting_date >= :from) \n" +
+                    "AND (:to IS NULL OR work.starting_date <= :to) \n" +
                     "            AND work.flag_delete = 0 ;",
             nativeQuery = true)
-    Page<Work> searchTodoByStartingDate(@Param("startingDate") String startingDate, Pageable pageable);
+    Page<Work> searchTodoByStartingDate(@Param("from") String from, @Param("to") String to, Pageable pageable);
 
     @Query(value = "SELECT work.id, work.ending_date, work.starting_date, work.flag_delete, work.work_name, work.status\n" +
-            "FROM work WHERE work.ending_date = :endingDate \n" +
-            "            AND work.flag_delete = 0 ",
-            countQuery = "SELECT count(todo.id) " +
-                    "FROM todo WHERE work.ending_date = :endingDate \n" +
-                    "            AND work.flag_delete = 0 ;",
+            "FROM work WHERE (:from IS NULL OR work.ending_date >= :from) \n" +
+            "AND (:to IS NULL OR work.ending_date <= :to) \n" +
+            "AND work.flag_delete = 0 ",
+            countQuery = "SELECT count(work.id) " +
+                    "FROM work WHERE (:from IS NULL OR work.ending_date >= :from) \n" +
+                    "AND (:to IS NULL OR work.ending_date <= :to) \n" +
+                    "AND work.flag_delete = 0 ;",
             nativeQuery = true)
-    Page<Work> searchWorkByEndingDate(@Param("endingDate") String endingDate, Pageable pageable);
+    Page<Work> searchWorkByEndingDate(@Param("from") String from, @Param("to") String to, Pageable pageable);
 }
