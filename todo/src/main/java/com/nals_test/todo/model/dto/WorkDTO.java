@@ -6,7 +6,7 @@ import org.springframework.validation.Validator;
 import javax.validation.constraints.*;
 
 
-public class TodoDTO implements Validator {
+public class WorkDTO implements Validator {
     private Integer id;
 
     @NotBlank(message = "This field cannot be left blank.")
@@ -15,6 +15,7 @@ public class TodoDTO implements Validator {
 
     @NotBlank(message = "This field cannot be left blank.")
     @Size(message = "Invalid field length.", min = 10, max = 22)
+    @Pattern(regexp = "^\\d{4}\\-(0[1-9]|1[012])\\-(0[1-9]|[12][0-9]|3[01])$")
     private String startingDate;
 
     @NotBlank(message = "This field cannot be left blank.")
@@ -26,10 +27,10 @@ public class TodoDTO implements Validator {
     @Min(0)
     private Integer status;
 
-    public TodoDTO() {
+    public WorkDTO() {
     }
 
-    public TodoDTO(Integer id, String workName, String startingDate, String endingDate) {
+    public WorkDTO(Integer id, String workName, String startingDate, String endingDate) {
         this.id = id;
         this.workName = workName;
         this.startingDate = startingDate;
@@ -78,9 +79,9 @@ public class TodoDTO implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        TodoDTO todoDTO = (TodoDTO) target;
-        String startDate = todoDTO.startingDate;
-        String endDate = todoDTO.endingDate;
+        WorkDTO workDTO = (WorkDTO) target;
+        String startDate = workDTO.startingDate;
+        String endDate = workDTO.endingDate;
         if (!ValidateStartAndEndDate.checkDate(startDate, endDate)) {
             errors.rejectValue("endingDate", "endingDate.invalid");
         } else if(!ValidateStartAndEndDate.checkDateCompareNow(startDate)){
