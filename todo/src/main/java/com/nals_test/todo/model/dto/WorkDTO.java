@@ -15,6 +15,7 @@ public class WorkDTO implements Validator {
 
     @NotBlank(message = "This field cannot be left blank.")
     @Size(message = "Invalid field length.", min = 10, max = 22)
+    @Pattern(regexp = "^\\d{4}\\-(0[1-9]|1[012])\\-(0[1-9]|[12][0-9]|3[01])$")
     private String startingDate;
 
     @NotBlank(message = "This field cannot be left blank.")
