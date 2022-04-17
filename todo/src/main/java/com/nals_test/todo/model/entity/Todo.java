@@ -21,9 +21,10 @@ public class Todo implements Serializable {
     @Column(name = "work_name", columnDefinition = "VARCHAR(255) CHARACTER SET utf8mb4")
     private String workName;
 
-    @Column(name = "starting_date")
+    @Column(name = "starting_date", columnDefinition = "date")
     private String startingDate;
-    @Column(name = "ending_date")
+
+    @Column(name = "ending_date", columnDefinition = "date")
     private String endingDate;
 
     @Column(name = "status", columnDefinition = "integer default 0")
